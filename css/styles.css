@@ -1,0 +1,64 @@
+* {
+  font-family: "Proza Libre", sans-serif;
+}
+
+label {
+  font-weight: bold;
+}
+
+/* FORM STYLING */
+.grey-background {
+  background-color: #f0f0f0;
+}
+
+.purple-background {
+  background-color: #542e80;
+  color: white;
+}
+
+label,
+input,
+textarea {
+  width: 100%;
+  margin: 0 0 1rem;
+}
+
+input,
+textarea,
+button,
+.rounded-corners {
+  border-radius: 0.3rem;
+  margin: 0 0 2rem;
+}
+
+input,
+textarea {
+  border: 1px solid #d7d7d7;
+  padding: 0.5rem;
+}
+
+button {
+  padding: 0.35rem 1rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+header {
+  padding: 1rem 0;
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border: 0.2rem solid #542e80;
+}
+
+.displayed-image {
+  width: 100%;
+}
