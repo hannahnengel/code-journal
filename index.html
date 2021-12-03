@@ -5,18 +5,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Code Journal</title>
   <link rel="icon" href="images/favicon.ico">
-  <link
-    rel="stylesheet"
-    crossorigin="anonymous"
+  <link rel="stylesheet" crossorigin="anonymous"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Proza+Libre:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
-  <header>
-  </header>
+<body class="grey-background">
+  <div class="purple-background">
+    <div class="container">
+      <div class="row">
+        <div class="column-full">
+          <header>
+            Code Journal
+          </header>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div data-view="entry-form" class="column-full">
+        <h1>New Entry</h1>
+        <form>
+          <div class="row">
+            <div class="column-half">
+              <label for="image"><img class="rounded-corners displayed-image" src="images/placeholder-image-square.jpg"
+                  alt="placeholder-image-square"></label>
+            </div>
+            <div class="column-half">
+              <label for="title">Title</label>
+              <input required name="title" type="text" id="title">
+              <label for="url">Photo URL</label>
+              <input required name="url" type="url" id="url">
+            </div>
+          </div>
+          <div class="row">
+            <div class="column-full">
+              <label for="notes">Notes</label>
+              <textarea required name="notes" type="text" id="notes" rows="10"></textarea>
+              <div class="form-actions">
+                <button class="purple-background" type="submit">Save</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
   <main>
   </main>
   <script src="js/data.js"></script>
