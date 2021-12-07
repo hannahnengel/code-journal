@@ -38,37 +38,40 @@ function handleInputs(event) {
   $form.reset();
 }
 
+var $dataViewEntries = document.querySelector('[data-view="entries"]');
+window.addEventListener('DOMContentLoaded', addAnEntry);
+
 function addAnEntry(entry) {
   var ulListEntries = document.createElement('ul');
   ulListEntries.setAttribute('class', 'list-entries');
+  for (var i = 0; i < data.entries.length; i++) {
+    var liRowListItem = document.createElement('li');
+    liRowListItem.setAttribute('class', 'row list-item');
 
-  var liRowListItem = document.createElement('li');
-  liRowListItem.setAttribute('class', 'row list-item');
+    var div1ColumnHalf = document.createElement('div');
+    div1ColumnHalf.setAttribute('class', 'column-half');
 
-  var div1ColumnHalf = document.createElement('div');
-  div1ColumnHalf.setAttribute('class', 'column-half');
+    var imgDisplayedImage = document.createElement('img');
+    imgDisplayedImage.setAttribute('src', data.entries[i].url);
+    imgDisplayedImage.setAttribute('alt', data.entries[i].title);
+    imgDisplayedImage.setAttribute('class', 'displayed-image');
 
-  var imgDisplayedImage = document.createElement('img');
-  imgDisplayedImage.setAttribute('src', 'https://www.bbvaopenmind.com/wp-content/uploads/2015/12/Ada_Lovelace_Chalon_portrait-1-1024x1024-1.jpg');
-  imgDisplayedImage.setAttribute('alt', 'Ada Lovelace');
-  imgDisplayedImage.setAttribute('class', 'displayed-image');
+    var div2ColumnHalf = document.createElement('div');
+    div2ColumnHalf.setAttribute('class', 'column-half');
 
-  var div2ColumnHalf = document.createElement('div');
-  div2ColumnHalf.setAttribute('class', 'column-half');
+    var h1 = document.createElement('h1');
+    h1.textContent = data.entries[i].title;
 
-  var h1 = document.createElement('h1');
-  h1.textContent = 'Ada Lovelace';
+    var p = document.createElement('p');
+    p.textContent = data.entries[i].notes;
 
-  var p = document.createElement('p');
-  p.textContent = 'Augusta Ada King, Countess of Lovelace was an English mathematician and writer, chiefly known for her work on Charles Babbage\'s proposed mechanical general-purpose computer, the Analytical Engine.';
-
-  ulListEntries.appendChild(liRowListItem);
-  liRowListItem.appendChild(div1ColumnHalf);
-  div1ColumnHalf.appendChild(imgDisplayedImage);
-  liRowListItem.appendChild(div2ColumnHalf);
-  div2ColumnHalf.appendChild(h1);
-  div2ColumnHalf.appendChild(p);
-
-  return ulListEntries;
+    ulListEntries.appendChild(liRowListItem);
+    liRowListItem.appendChild(div1ColumnHalf);
+    div1ColumnHalf.appendChild(imgDisplayedImage);
+    liRowListItem.appendChild(div2ColumnHalf);
+    div2ColumnHalf.appendChild(h1);
+    div2ColumnHalf.appendChild(p);
+  }
+  $dataViewEntries.appendChild(ulListEntries);
+  return $dataViewEntries;
 }
-addAnEntry();
