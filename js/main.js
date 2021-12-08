@@ -22,7 +22,12 @@ function showPhotoPreview(event) {
   }
 }
 
+var $dataViewEntryForm = document.querySelector('[data-view= "entry-form"');
+var $dataViewEntries = document.querySelector('[data-view="entries"]');
+var $newEntryButton = document.querySelector('.new-entry-button');
 var $form = document.querySelector('form');
+var $entriesLink = document.querySelector('.entries-link');
+
 $form.addEventListener('submit', handleInputs);
 function handleInputs(event) {
   event.preventDefault();
@@ -36,42 +41,71 @@ function handleInputs(event) {
   data.entries.push(objectOfValues);
   $displayedImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
+
+  $dataViewEntries.classList.remove('hidden');
+  $dataViewEntryForm.classList.add('hidden');
+  data.view = 'entries';
+  location.reload();
 }
 
-var $dataViewEntries = document.querySelector('[data-view="entries"]');
 window.addEventListener('DOMContentLoaded', addAnEntry);
-
 function addAnEntry(entry) {
   var ulListEntries = document.createElement('ul');
   ulListEntries.setAttribute('class', 'list-entries');
-  for (var i = 0; i < data.entries.length; i++) {
-    var liRowListItem = document.createElement('li');
-    liRowListItem.setAttribute('class', 'row list-item');
+  if (data.entries.length > 0) {
+    for (var i = 0; i < data.entries.length; i++) {
+      var liRowListItem = document.createElement('li');
+      liRowListItem.setAttribute('class', 'row list-item');
 
-    var div1ColumnHalf = document.createElement('div');
-    div1ColumnHalf.setAttribute('class', 'column-half');
+      var div1ColumnHalf = document.createElement('div');
+      div1ColumnHalf.setAttribute('class', 'column-half');
 
-    var imgDisplayedImage = document.createElement('img');
-    imgDisplayedImage.setAttribute('src', data.entries[i].url);
-    imgDisplayedImage.setAttribute('alt', data.entries[i].title);
-    imgDisplayedImage.setAttribute('class', 'displayed-image');
+      var imgDisplayedImage = document.createElement('img');
+      imgDisplayedImage.setAttribute('src', data.entries[i].url);
+      imgDisplayedImage.setAttribute('alt', data.entries[i].title);
+      imgDisplayedImage.setAttribute('class', 'displayed-image');
 
-    var div2ColumnHalf = document.createElement('div');
-    div2ColumnHalf.setAttribute('class', 'column-half');
+      var div2ColumnHalf = document.createElement('div');
+      div2ColumnHalf.setAttribute('class', 'column-half');
 
-    var h1 = document.createElement('h1');
-    h1.textContent = data.entries[i].title;
+      var h1 = document.createElement('h1');
+      h1.textContent = data.entries[i].title;
 
-    var p = document.createElement('p');
-    p.textContent = data.entries[i].notes;
+      var p = document.createElement('p');
+      p.textContent = data.entries[i].notes;
 
-    ulListEntries.appendChild(liRowListItem);
-    liRowListItem.appendChild(div1ColumnHalf);
-    div1ColumnHalf.appendChild(imgDisplayedImage);
-    liRowListItem.appendChild(div2ColumnHalf);
-    div2ColumnHalf.appendChild(h1);
-    div2ColumnHalf.appendChild(p);
+      ulListEntries.appendChild(liRowListItem);
+      liRowListItem.appendChild(div1ColumnHalf);
+      div1ColumnHalf.appendChild(imgDisplayedImage);
+      liRowListItem.appendChild(div2ColumnHalf);
+      div2ColumnHalf.appendChild(h1);
+      div2ColumnHalf.appendChild(p);
+    }
+    $dataViewEntries.appendChild(ulListEntries);
+  } else {
+    var pNoEntries = document.createElement('p');
+    pNoEntries.textContent = 'No entries have been recorded.';
+    pNoEntries.setAttribute('class', 'center-text');
+    $dataViewEntries.appendChild(pNoEntries);
   }
-  $dataViewEntries.appendChild(ulListEntries);
+  if (data.view === 'entry-form') {
+    $dataViewEntries.classList.add('hidden');
+    $dataViewEntryForm.classList.remove('hidden');
+  } else if (data.view === 'entries') {
+    $dataViewEntries.classList.remove('hidden');
+    $dataViewEntryForm.classList.add('hidden');
+  }
   return $dataViewEntries;
 }
+
+$newEntryButton.addEventListener('click', function (event) {
+  data.view = 'entry-form';
+  $dataViewEntries.classList.add('hidden');
+  $dataViewEntryForm.classList.remove('hidden');
+});
+
+$entriesLink.addEventListener('click', function (event) {
+  data.view = 'entries';
+  $dataViewEntries.classList.remove('hidden');
+  $dataViewEntryForm.classList.add('hidden');
+});

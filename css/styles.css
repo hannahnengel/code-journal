@@ -6,7 +6,6 @@ label {
   font-weight: bold;
 }
 
-/* FORM STYLING */
 .grey-background {
   background-color: #f0f0f0;
 }
@@ -42,6 +41,7 @@ button {
   text-transform: uppercase;
   cursor: pointer;
   border: none;
+  height: 32px;
 }
 
 .form-actions {
@@ -49,8 +49,29 @@ button {
   justify-content: flex-end;
 }
 
-header {
-  padding: 1rem 0;
+ul.nav {
+  list-style-type: none;
+  display: flex;
+  line-height: 0.5rem;
+}
+
+ul.nav > li {
+  padding: 1rem;
+}
+
+.entries-link {
+  color: white;
+  text-decoration: none;
+}
+
+.header {
+  font-size: 1.4rem;
+}
+
+.display-flex-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 input:focus,
@@ -72,4 +93,13 @@ textarea:focus {
 
 .list-item {
   padding: 2rem 0;
+}
+
+.hidden {
+  display: none;
+}
+
+.center-text {
+  text-align: center;
+  padding: 2rem 0 0;
 }
