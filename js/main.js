@@ -91,6 +91,9 @@ function renderEntries(entry) {
 
   var h1 = document.createElement('h1');
   h1.textContent = entry.title;
+  h1.setAttribute('class', 'display-flex-wrap-between');
+  var icon = document.createElement('i');
+  icon.setAttribute('class', 'fas fa-pen editing-pen-icon');
 
   var p = document.createElement('p');
   p.textContent = entry.notes;
@@ -99,6 +102,7 @@ function renderEntries(entry) {
   div1ColumnHalf.appendChild(imgDisplayedImage);
   liRowListItem.appendChild(div2ColumnHalf);
   div2ColumnHalf.appendChild(h1);
+  h1.appendChild(icon);
   div2ColumnHalf.appendChild(p);
 
   return liRowListItem;

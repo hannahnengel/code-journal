@@ -53,6 +53,7 @@ ul.nav {
   list-style-type: none;
   display: flex;
   line-height: 0.5rem;
+  padding: 0;
 }
 
 ul.nav > li {
@@ -102,4 +103,16 @@ textarea:focus {
 .center-text {
   text-align: center;
   padding: 2rem 0 0;
+}
+
+.editing-pen-icon {
+  color: #542e80;
+  font-size: 1.5rem;
+  left: 40%;
+}
+
+.display-flex-wrap-between {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
