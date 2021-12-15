@@ -38,14 +38,14 @@ function handleInputs(event) {
     url: $form.elements.url.value,
     notes: $form.elements.notes.value
   };
-  objectOfValues.nextEntryId = data.nextEntryId;
+  objectOfValues.itemEntryId = data.nextEntryId;
   data.nextEntryId++;
+  objectOfValues.nextEntryId = data.nextEntryId;
   data.entries.push(objectOfValues);
   $displayedImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
 
-  $dataViewEntries.classList.remove('hidden');
-  $dataViewEntryForm.classList.add('hidden');
+  openEntriesGallery();
   data.view = 'entries';
 
   $ulListEntries.prepend(renderEntries(objectOfValues));
@@ -65,11 +65,9 @@ function addAnEntry(entry) {
     $pNoEntries.classList.remove('hidden');
   }
   if (data.view === 'entry-form') {
-    $dataViewEntries.classList.add('hidden');
-    $dataViewEntryForm.classList.remove('hidden');
+    openEntryForm();
   } else if (data.view === 'entries') {
-    $dataViewEntries.classList.remove('hidden');
-    $dataViewEntryForm.classList.add('hidden');
+    openEntriesGallery();
   }
   return $dataViewEntries;
 }
@@ -77,7 +75,7 @@ function addAnEntry(entry) {
 function renderEntries(entry) {
   var liRowListItem = document.createElement('li');
   liRowListItem.setAttribute('class', 'row list-item');
-  liRowListItem.setAttribute('data-entry-id', entry.nextEntryId);
+  liRowListItem.setAttribute('data-entry-id', entry.itemEntryId);
 
   var div1ColumnHalf = document.createElement('div');
   div1ColumnHalf.setAttribute('class', 'column-half');
@@ -109,14 +107,29 @@ function renderEntries(entry) {
   return liRowListItem;
 }
 
-$newEntryButton.addEventListener('click', function (event) {
+$newEntryButton.addEventListener('click', openEntryForm);
+function openEntryForm() {
   data.view = 'entry-form';
   $dataViewEntries.classList.add('hidden');
   $dataViewEntryForm.classList.remove('hidden');
-});
+}
 
-$entriesLink.addEventListener('click', function (event) {
+$entriesLink.addEventListener('click', openEntriesGallery);
+function openEntriesGallery() {
   data.view = 'entries';
   $dataViewEntries.classList.remove('hidden');
   $dataViewEntryForm.classList.add('hidden');
+}
+
+$ulListEntries.addEventListener('click', function (event) {
+  if (event.target && event.target.nodeName === 'I') {
+    var closestTarget = event.target.closest('.list-item');
+    openEntryForm();
+    var closestTargetEntryIdValue = parseInt(closestTarget.getAttribute('data-entry-id'), 10);
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].itemEntryId === closestTargetEntryIdValue) {
+        data.editing = data.entries[i];
+      }
+    }
+  }
 });
