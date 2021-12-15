@@ -129,7 +129,26 @@ $ulListEntries.addEventListener('click', function (event) {
     for (var i = 0; i < data.entries.length; i++) {
       if (data.entries[i].itemEntryId === closestTargetEntryIdValue) {
         data.editing = data.entries[i];
+        prePopulateForm(data.editing);
       }
     }
   }
 });
+
+function prePopulateForm(dataToEdit) {
+  var $h1Edit = document.querySelector('[data-view= "entry-form"] > h1');
+  $h1Edit.textContent = 'Edit Entry';
+
+  var $imgEdit = document.querySelector('img.displayed-image');
+  $imgEdit.setAttribute('src', data.editing.url);
+  $imgEdit.setAttribute('alt', data.editing.title);
+
+  var $titleEdit = document.querySelector('#title');
+  $titleEdit.setAttribute('value', data.editing.title);
+
+  var $urlValueEdit = document.querySelector('#url');
+  $urlValueEdit.setAttribute('value', data.editing.url);
+
+  var $notesEdit = document.querySelector('#notes');
+  $notesEdit.textContent = data.editing.notes;
+}
