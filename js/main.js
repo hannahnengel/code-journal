@@ -28,6 +28,8 @@ var $newEntryButton = document.querySelector('.new-entry-button');
 var $form = document.querySelector('form');
 var $entriesLink = document.querySelector('.entries-link');
 var $ulListEntries = document.querySelector('ul.list-entries');
+var $divList = document.querySelector('div.div-list');
+var $pNoEntries = document.querySelector('p.center-text');
 
 $form.addEventListener('submit', handleInputs);
 function handleInputs(event) {
@@ -48,6 +50,7 @@ function handleInputs(event) {
   data.view = 'entries';
 
   $ulListEntries.prepend(renderEntries(objectOfValues));
+  $divList.removeChild($pNoEntries);
 }
 
 window.addEventListener('DOMContentLoaded', addAnEntry);
@@ -59,10 +62,7 @@ function addAnEntry(entry) {
     }
 
   } else {
-    var pNoEntries = document.createElement('p');
-    pNoEntries.textContent = 'No entries have been recorded.';
-    pNoEntries.setAttribute('class', 'center-text');
-    $ulListEntries.prepend(pNoEntries);
+    $divList.appendChild($pNoEntries);
   }
   if (data.view === 'entry-form') {
     $dataViewEntries.classList.add('hidden');
