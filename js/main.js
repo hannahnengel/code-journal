@@ -28,7 +28,6 @@ var $newEntryButton = document.querySelector('.new-entry-button');
 var $form = document.querySelector('form');
 var $entriesLink = document.querySelector('.entries-link');
 var $ulListEntries = document.querySelector('ul.list-entries');
-var $divList = document.querySelector('div.div-list');
 var $pNoEntries = document.querySelector('p.center-text');
 
 $form.addEventListener('submit', handleInputs);
@@ -39,7 +38,7 @@ function handleInputs(event) {
     url: $form.elements.url.value,
     notes: $form.elements.notes.value
   };
-  objectOfValues.nextEntryID = data.nextEntryId;
+  objectOfValues.nextEntryId = data.nextEntryId;
   data.nextEntryId++;
   data.entries.push(objectOfValues);
   $displayedImage.setAttribute('src', 'images/placeholder-image-square.jpg');
@@ -50,7 +49,7 @@ function handleInputs(event) {
   data.view = 'entries';
 
   $ulListEntries.prepend(renderEntries(objectOfValues));
-  $divList.removeChild($pNoEntries);
+  $pNoEntries.classList.add('hidden');
 }
 
 window.addEventListener('DOMContentLoaded', addAnEntry);
@@ -59,10 +58,11 @@ function addAnEntry(entry) {
     for (var i = 0; i < data.entries.length; i++) {
       var newEntry = renderEntries(data.entries[i]);
       $ulListEntries.prepend(newEntry);
+      $pNoEntries.classList.add('hidden');
     }
 
   } else {
-    $divList.appendChild($pNoEntries);
+    $pNoEntries.classList.remove('hidden');
   }
   if (data.view === 'entry-form') {
     $dataViewEntries.classList.add('hidden');
@@ -77,6 +77,7 @@ function addAnEntry(entry) {
 function renderEntries(entry) {
   var liRowListItem = document.createElement('li');
   liRowListItem.setAttribute('class', 'row list-item');
+  liRowListItem.setAttribute('data-entry-id', entry.nextEntryId);
 
   var div1ColumnHalf = document.createElement('div');
   div1ColumnHalf.setAttribute('class', 'column-half');
