@@ -38,9 +38,24 @@ function handleInputs(event) {
     url: $form.elements.url.value,
     notes: $form.elements.notes.value
   };
-  objectOfValues.itemEntryId = data.nextEntryId;
-  data.nextEntryId++;
-  objectOfValues.nextEntryId = data.nextEntryId;
+
+  if (data.editing !== null) {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].itemEntryId === data.editing.itemEntryId) {
+        objectOfValues.itemEntryId = data.entries[i].itemEntryId;
+        objectOfValues.nextEntryId = data.entries[i].nextEntryId;
+        var itemEntryId = data.editing.itemEntryId;
+        data.entries.splice(i, 1);
+        var $oldData = document.querySelector('[data-entry-id =' + CSS.escape(itemEntryId) + ']');
+        $ulListEntries.removeChild($oldData);
+        data.editing = null;
+      }
+    }
+  } else {
+    objectOfValues.itemEntryId = data.nextEntryId;
+    data.nextEntryId++;
+    objectOfValues.nextEntryId = data.nextEntryId;
+  }
   data.entries.push(objectOfValues);
   $displayedImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
@@ -50,6 +65,7 @@ function handleInputs(event) {
 
   $ulListEntries.prepend(renderEntries(objectOfValues));
   $pNoEntries.classList.add('hidden');
+
 }
 
 window.addEventListener('DOMContentLoaded', addAnEntry);

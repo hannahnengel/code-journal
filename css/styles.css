@@ -85,6 +85,7 @@ textarea:focus {
   width: 100%;
   height: 402px;
   object-fit: cover;
+  margin: 21.44px 0;
 }
 
 .list-entries {
@@ -111,8 +112,16 @@ textarea:focus {
   left: 40%;
 }
 
+.editing-pen-icon:hover {
+  cursor: pointer;
+}
+
 .display-flex-wrap-between {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+div.column-half > p {
+  white-space: pre-wrap;
 }
