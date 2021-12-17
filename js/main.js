@@ -31,6 +31,8 @@ var $ulListEntries = document.querySelector('ul.list-entries');
 var $pNoEntries = document.querySelector('p.center-text');
 var $formActions = document.querySelector('div.form-actions');
 var $deleteLink = document.querySelector('.delete-link');
+var $greyOverlay = document.querySelector('div.grey-overlay');
+var $modal = document.querySelector('.modal');
 
 $form.addEventListener('submit', handleInputs);
 function handleInputs(event) {
@@ -175,3 +177,17 @@ function prePopulateForm(dataToEdit) {
   var $notesEdit = document.querySelector('#notes');
   $notesEdit.textContent = data.editing.notes;
 }
+
+$formActions.addEventListener('click', function (event) {
+  if (event.target && event.target.nodeName === 'A') {
+    $greyOverlay.classList.remove('hidden');
+    $modal.classList.remove('hidden');
+  }
+});
+
+$modal.addEventListener('click', function (event) {
+  if (event.target && event.target.className === 'cancel-button') {
+    $greyOverlay.classList.add('hidden');
+    $modal.classList.add('hidden');
+  }
+});
