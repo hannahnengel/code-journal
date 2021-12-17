@@ -53,6 +53,7 @@ ul.nav {
   list-style-type: none;
   display: flex;
   line-height: 0.5rem;
+  padding: 0;
 }
 
 ul.nav > li {
@@ -84,6 +85,7 @@ textarea:focus {
   width: 100%;
   height: 402px;
   object-fit: cover;
+  margin: 21.44px 0;
 }
 
 .list-entries {
@@ -102,4 +104,24 @@ textarea:focus {
 .center-text {
   text-align: center;
   padding: 2rem 0 0;
+}
+
+.editing-pen-icon {
+  color: #542e80;
+  font-size: 1.5rem;
+  left: 40%;
+}
+
+.editing-pen-icon:hover {
+  cursor: pointer;
+}
+
+.display-flex-wrap-between {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+div.column-half > p {
+  white-space: pre-wrap;
 }

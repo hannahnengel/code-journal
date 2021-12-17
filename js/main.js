@@ -28,6 +28,7 @@ var $newEntryButton = document.querySelector('.new-entry-button');
 var $form = document.querySelector('form');
 var $entriesLink = document.querySelector('.entries-link');
 var $ulListEntries = document.querySelector('ul.list-entries');
+var $pNoEntries = document.querySelector('p.center-text');
 
 $form.addEventListener('submit', handleInputs);
 function handleInputs(event) {
@@ -37,17 +38,34 @@ function handleInputs(event) {
     url: $form.elements.url.value,
     notes: $form.elements.notes.value
   };
-  objectOfValues.nextEntryID = data.nextEntryId;
-  data.nextEntryId++;
+
+  if (data.editing !== null) {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].itemEntryId === data.editing.itemEntryId) {
+        objectOfValues.itemEntryId = data.entries[i].itemEntryId;
+        objectOfValues.nextEntryId = data.entries[i].nextEntryId;
+        var itemEntryId = data.editing.itemEntryId;
+        data.entries.splice(i, 1);
+        var $oldData = document.querySelector('[data-entry-id =' + CSS.escape(itemEntryId) + ']');
+        $ulListEntries.removeChild($oldData);
+        data.editing = null;
+      }
+    }
+  } else {
+    objectOfValues.itemEntryId = data.nextEntryId;
+    data.nextEntryId++;
+    objectOfValues.nextEntryId = data.nextEntryId;
+  }
   data.entries.push(objectOfValues);
   $displayedImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
 
-  $dataViewEntries.classList.remove('hidden');
-  $dataViewEntryForm.classList.add('hidden');
+  openEntriesGallery();
   data.view = 'entries';
 
   $ulListEntries.prepend(renderEntries(objectOfValues));
+  $pNoEntries.classList.add('hidden');
+
 }
 
 window.addEventListener('DOMContentLoaded', addAnEntry);
@@ -56,20 +74,16 @@ function addAnEntry(entry) {
     for (var i = 0; i < data.entries.length; i++) {
       var newEntry = renderEntries(data.entries[i]);
       $ulListEntries.prepend(newEntry);
+      $pNoEntries.classList.add('hidden');
     }
 
   } else {
-    var pNoEntries = document.createElement('p');
-    pNoEntries.textContent = 'No entries have been recorded.';
-    pNoEntries.setAttribute('class', 'center-text');
-    $ulListEntries.prepend(pNoEntries);
+    $pNoEntries.classList.remove('hidden');
   }
   if (data.view === 'entry-form') {
-    $dataViewEntries.classList.add('hidden');
-    $dataViewEntryForm.classList.remove('hidden');
+    openEntryForm();
   } else if (data.view === 'entries') {
-    $dataViewEntries.classList.remove('hidden');
-    $dataViewEntryForm.classList.add('hidden');
+    openEntriesGallery();
   }
   return $dataViewEntries;
 }
@@ -77,6 +91,7 @@ function addAnEntry(entry) {
 function renderEntries(entry) {
   var liRowListItem = document.createElement('li');
   liRowListItem.setAttribute('class', 'row list-item');
+  liRowListItem.setAttribute('data-entry-id', entry.itemEntryId);
 
   var div1ColumnHalf = document.createElement('div');
   div1ColumnHalf.setAttribute('class', 'column-half');
@@ -91,6 +106,9 @@ function renderEntries(entry) {
 
   var h1 = document.createElement('h1');
   h1.textContent = entry.title;
+  h1.setAttribute('class', 'display-flex-wrap-between');
+  var icon = document.createElement('i');
+  icon.setAttribute('class', 'fas fa-pen editing-pen-icon');
 
   var p = document.createElement('p');
   p.textContent = entry.notes;
@@ -99,19 +117,54 @@ function renderEntries(entry) {
   div1ColumnHalf.appendChild(imgDisplayedImage);
   liRowListItem.appendChild(div2ColumnHalf);
   div2ColumnHalf.appendChild(h1);
+  h1.appendChild(icon);
   div2ColumnHalf.appendChild(p);
 
   return liRowListItem;
 }
 
-$newEntryButton.addEventListener('click', function (event) {
+$newEntryButton.addEventListener('click', openEntryForm);
+function openEntryForm() {
   data.view = 'entry-form';
   $dataViewEntries.classList.add('hidden');
   $dataViewEntryForm.classList.remove('hidden');
-});
+}
 
-$entriesLink.addEventListener('click', function (event) {
+$entriesLink.addEventListener('click', openEntriesGallery);
+function openEntriesGallery() {
   data.view = 'entries';
   $dataViewEntries.classList.remove('hidden');
   $dataViewEntryForm.classList.add('hidden');
+}
+
+$ulListEntries.addEventListener('click', function (event) {
+  if (event.target && event.target.nodeName === 'I') {
+    var closestTarget = event.target.closest('.list-item');
+    openEntryForm();
+    var closestTargetEntryIdValue = parseInt(closestTarget.getAttribute('data-entry-id'), 10);
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].itemEntryId === closestTargetEntryIdValue) {
+        data.editing = data.entries[i];
+        prePopulateForm(data.editing);
+      }
+    }
+  }
 });
+
+function prePopulateForm(dataToEdit) {
+  var $h1Edit = document.querySelector('[data-view= "entry-form"] > h1');
+  $h1Edit.textContent = 'Edit Entry';
+
+  var $imgEdit = document.querySelector('img.displayed-image');
+  $imgEdit.setAttribute('src', data.editing.url);
+  $imgEdit.setAttribute('alt', data.editing.title);
+
+  var $titleEdit = document.querySelector('#title');
+  $titleEdit.setAttribute('value', data.editing.title);
+
+  var $urlValueEdit = document.querySelector('#url');
+  $urlValueEdit.setAttribute('value', data.editing.url);
+
+  var $notesEdit = document.querySelector('#notes');
+  $notesEdit.textContent = data.editing.notes;
+}
