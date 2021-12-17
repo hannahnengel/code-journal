@@ -65,6 +65,7 @@ function handleInputs(event) {
   data.entries.push(objectOfValues);
   $displayedImage.setAttribute('src', 'images/placeholder-image-square.jpg');
   $form.reset();
+  resetForm();
 
   openEntriesGallery();
   data.view = 'entries';
@@ -178,6 +179,26 @@ function prePopulateForm(dataToEdit) {
   $notesEdit.textContent = data.editing.notes;
 }
 
+function resetForm() {
+  var $h1Reset = document.querySelector('[data-view= "entry-form"] > h1');
+  $h1Reset.textContent = 'New Entry';
+
+  var $imgReset = document.querySelector('img.displayed-image');
+  $imgReset.setAttribute('src', 'images/placeholder-image-square.jpg');
+  $imgReset.setAttribute('alt', '');
+
+  var $titleReset = document.querySelector('#title');
+  $titleReset.setAttribute('value', '');
+
+  var $urlValueReset = document.querySelector('#url');
+  $urlValueReset.setAttribute('value', '');
+
+  var $notesReset = document.querySelector('#notes');
+  $notesReset.textContent = '';
+
+  $formActions.classList.remove('justify-content-space-between');
+}
+
 $formActions.addEventListener('click', function (event) {
   if (event.target && event.target.nodeName === 'A') {
     $greyOverlay.classList.remove('hidden');
@@ -189,5 +210,26 @@ $modal.addEventListener('click', function (event) {
   if (event.target && event.target.className === 'cancel-button') {
     $greyOverlay.classList.add('hidden');
     $modal.classList.add('hidden');
+  }
+  if (event.target && event.target.className === 'confirm-button') {
+    for (var i = 0; i < data.entries.length; i++) {
+      if (data.entries[i].itemEntryId === data.editing.itemEntryId) {
+        var itemEntryId = data.editing.itemEntryId;
+        data.entries.splice(i, 1);
+        var $oldData = document.querySelector('[data-entry-id =' + CSS.escape(itemEntryId) + ']');
+        $ulListEntries.removeChild($oldData);
+        data.editing = null;
+        if (data.entries.length === 0) {
+          $pNoEntries.classList.remove('hidden');
+        }
+      }
+    }
+    $greyOverlay.classList.add('hidden');
+    $modal.classList.add('hidden');
+
+    openEntriesGallery();
+    data.view = 'entries';
+    $deleteLink.classList.add('hidden');
+    resetForm();
   }
 });

@@ -175,9 +175,3 @@ div.column-half > p {
 .bottom-spacer {
   margin: 0 0 3rem;
 }
-
-@media screen and (max-width: 768px) {
-  .position-relative {
-    position: relative;
-  }
-}
