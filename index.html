@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body class="grey-background">
+<body class="grey-background position-relative">
+  <div class="grey-overlay hidden"></div>
   <nav class="purple-background">
     <div class="container">
       <div class="row">
@@ -51,11 +52,19 @@
               <label for="notes">Notes</label>
               <textarea required name="notes" id="notes" rows="10"></textarea>
               <div class="form-actions">
+                <a class="delete-link hidden">Delete Entry</a>
                 <button class="purple-background" type="submit">Save</button>
               </div>
             </div>
           </div>
         </form>
+        <div class="modal hidden">
+          <div class="display-flex-wrap-between">
+            <h1 class="bottom-spacer">Are you sure you want to delete this entry?</h1>
+            <button class="cancel-button">Cancel</button>
+            <button class="confirm-button">Confirm</button>
+          </div>
+        </div>
       </div>
       <div data-view="entries" class="column-full">
         <div class="display-flex-heading">

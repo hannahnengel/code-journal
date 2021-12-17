@@ -29,6 +29,8 @@ var $form = document.querySelector('form');
 var $entriesLink = document.querySelector('.entries-link');
 var $ulListEntries = document.querySelector('ul.list-entries');
 var $pNoEntries = document.querySelector('p.center-text');
+var $formActions = document.querySelector('div.form-actions');
+var $deleteLink = document.querySelector('.delete-link');
 
 $form.addEventListener('submit', handleInputs);
 function handleInputs(event) {
@@ -48,6 +50,8 @@ function handleInputs(event) {
         data.entries.splice(i, 1);
         var $oldData = document.querySelector('[data-entry-id =' + CSS.escape(itemEntryId) + ']');
         $ulListEntries.removeChild($oldData);
+        $formActions.classList.remove('justify-content-space-between');
+        $deleteLink.classList.add('hidden');
         data.editing = null;
       }
     }
@@ -135,6 +139,7 @@ function openEntriesGallery() {
   data.view = 'entries';
   $dataViewEntries.classList.remove('hidden');
   $dataViewEntryForm.classList.add('hidden');
+  data.editing = null;
 }
 
 $ulListEntries.addEventListener('click', function (event) {
@@ -146,6 +151,8 @@ $ulListEntries.addEventListener('click', function (event) {
       if (data.entries[i].itemEntryId === closestTargetEntryIdValue) {
         data.editing = data.entries[i];
         prePopulateForm(data.editing);
+        $formActions.classList.add('justify-content-space-between');
+        $deleteLink.classList.remove('hidden');
       }
     }
   }
